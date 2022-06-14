@@ -15,8 +15,10 @@
 <div class="container-fluid">
 <form name="test" method="get" action="/">
     <article style="border: 5px dotted #c68a5d; margin-bottom: 30px;">
-        <h2><?= $data[0]->getTitle(); ?></h2><br>
-        <p><?= $data[0]->getContent() ?></p>
+        <?php foreach ($this->article as $content) {?>
+        <h2><?= $content->getTitle(); ?></h2><br>
+        <p><?= $content->getContent() ?></p>
+        <?php }?>
     </article>
 
 

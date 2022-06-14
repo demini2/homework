@@ -5,11 +5,10 @@ error_reporting(E_ALL & ~E_DEPRECATED);
 ini_set('display_errors', '1');
 
 try {
-    $index = new \app\models\Article();
-    $data = \app\models\Article::findById($_GET['id']);
-    $index->update2();
-    include __DIR__ . '/app/templates/article.php';
+    $view = new \app\view\View();
 
+    $view->article = \app\models\Article::findById($_GET['id']);
+    $view->display('article.php');
 
 
 } catch (Exception $error) {

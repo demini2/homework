@@ -3,11 +3,13 @@
 namespace models;
 
 
+use app\models\User;
+
 abstract class Models
 {
     public const TABLE = '';
     public int $id;
-    public int $yt;
+
 
     /**
      * @return array
@@ -27,9 +29,8 @@ abstract class Models
      * @param $id
      * @return array|false
      */
-    public function findById($id): array|false
+    public static function findById($id)
     {
-        $this->yt = $id;
         $db = new Bd();
         $answer = $db->query(
             'SELECT * FROM ' . static::TABLE . ' WHERE id=:id ',
@@ -39,6 +40,14 @@ abstract class Models
         if (empty($answer)) {
             return false;
         }
+        $author = $answer[0]->getAuthorId();
+        if (empty($author)){
+            $name =\models\User::authorById($author);
+            $answer[0]->setAuthor($name[0]->getAuthor());
+            var_dump($answer);
+            return $answer;
+        }
+//        var_dump($answer);
         return $answer;
     }
 
@@ -51,16 +60,32 @@ abstract class Models
             if ('id' === $name) {
                 continue;
             }
+            if ('author_id' === $name) {
+                $id = \models\User::getAuthorId();
+                if (!empty($id)) {
+                    $data[':' . $name] = $id[0]->getId();
+                    $cols[] = $name;
+                    continue;
+                }
+                \models\User::newIdAuthors();
+                $newId = \models\User::getAuthorId();
+                $data[':' . $name] = $newId[0]->getId();
+                $cols[] = $name;
+                continue;
+            }
             $cols[] = $name;
             $data[':' . $name] = $value;
         }
+
         $sql = 'INSERT INTO ' . static::TABLE . '
         (' . implode(',', $cols) . ')
         VALUES 
         (' . implode(',', array_keys($data)) . ')';
+        var_dump($data);
         $db = new Bd();
         $db->execute($sql, $data);
         $this->id = $db->getLastId();
+
     }
 
     public function save(): void
@@ -72,6 +97,7 @@ abstract class Models
             $this->delete();
         } elseif (isset($_POST['newNews'])) {
             $this->title = $_POST['newTitle'];
+            $this->author_id = $_POST['author'];
             $this->content = $_POST['newContent'];
             $this->insert();
         } elseif (isset($_POST['update'])) {

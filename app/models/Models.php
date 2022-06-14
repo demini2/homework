@@ -40,50 +40,50 @@ abstract class Models
         return $answer;
     }
 
-    public function insert(): void
-    {
-        $fields = get_object_vars($this);
-        $cols = [];
-        $data = [];
-        foreach ($fields as $name => $value) {
-            if ('id' === $name) {
-                continue;
-            }
-            $cols[] = $name;
-            $data[':' . $name] = $value;
-        }
-        $sql = 'INSERT INTO ' . static::TABLE . '
-        (' . implode(',', $cols) . ')
-        VALUES 
-        (' . implode(',', array_keys($data)) . ')';
-        echo $sql;
-        $db = new Bd();
-        $db->execute($sql, $data);
-
-    }
-
-    public function update2(): void
-    {
-        $data = [];
-        foreach ($_POST as $key => $item) {
-            $id = stristr($key, '=');
-            if (is_numeric($id)) {
-                $data[':' . $key] = $item;
-                $data = [':id' => $id];
-            }
-
-        }
-
-        $sql = 'UPDATE ' . static::TABLE . ' 
-        SET 
-        ( author=:author, content=:content, title=:title )
-         WHERE 
-         id=:id';
-        echo $sql;
+//    public function insert(): void
+//    {
+//        $fields = get_object_vars($this);
+//        $cols = [];
+//        $data = [];
+//        foreach ($fields as $name => $value) {
+//            if ('id' === $name) {
+//                continue;
+//            }
+//            $cols[] = $name;
+//            $data[':' . $name] = $value;
+//        }
+//        $sql = 'INSERT INTO ' . static::TABLE . '
+//        (' . implode(',', $cols) . ')
+//        VALUES
+//        (' . implode(',', array_keys($data)) . ')';
+//        echo $sql;
 //        $db = new Bd();
 //        $db->execute($sql, $data);
-
-
-    }
+//
+//    }
+//
+//    public function update2(): void
+//    {
+//        $data = [];
+//        foreach ($_POST as $key => $item) {
+//            $id = stristr($key, '=');
+//            if (is_numeric($id)) {
+//                $data[':' . $key] = $item;
+//                $data = [':id' => $id];
+//            }
+//
+//        }
+//
+//        $sql = 'UPDATE ' . static::TABLE . '
+//        SET
+//        ( author=:author, content=:content, title=:title )
+//         WHERE
+//         id=:id';
+//
+//        $db = new Bd();
+//        $db->execute($sql, $data);
+//
+//
+//    }
 
 }

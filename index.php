@@ -11,13 +11,11 @@ ini_set('display_errors', '1');
 
 
 try {
-    $index = new \app\models\Article();
+    $view = new \app\view\View();
+    $view->articles = \app\models\Article::findAll();
+    $view->display('index.php');
 
-    $data = \app\models\Article::findAll();
-    include __DIR__ . '/app/templates/index.php';
-
-
-
+var_dump($user= \app\models\User::authorById(7));
 } catch (Exception $error) {
     echo $error->getMessage();
 }

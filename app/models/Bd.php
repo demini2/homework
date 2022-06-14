@@ -3,8 +3,6 @@
 
 namespace app\models;
 
-use  app\models\Config;
-
 class Bd
 
 {

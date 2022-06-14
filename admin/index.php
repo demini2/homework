@@ -11,13 +11,17 @@ ini_set('display_errors', '1');
 
 
 try {
-    $index = new \models\Article();
-
-    $index->findAll();
-    $data = \models\Article::findAll();
-    include __DIR__ . '/templates/index.php';
-    $index->save();
-    echo '<br>' ;
+//    $index = new \models\Article();
+//
+//    $index->findAll();
+//    $data = \models\Article::findAll();
+//    include __DIR__ . '/templates/index.php';
+//    $index->save();
+    $view = new \view\View();
+    $view->article = \models\Article::findAll();
+    $view->display('index.php');
+    $view->article[0]->save();
+    echo '<br>';
 
 
 } catch (Exception $error) {

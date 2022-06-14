@@ -15,12 +15,16 @@
 <div class="container-fluid">
     <form name="red" method="post" action="article.php">
         <article style="border: 5px dotted #c68a5d; margin-bottom: 30px;">
-            <h2><?= $data[0]->getTitle() ?></h2><br>
-            <p><?= $data[0]->getContent() ?></p>
-            <p></p>
+            <?php foreach ($this->article as $content) {?>
+                <h2><?= $content->getTitle(); ?></h2><br>
+                <p><?= $content->getContent() ?></p>
+            <?php if ($content->getAuthor()) { ?>
+            <p>Автор статьи:</p>
+                <p><?= $content->getAuthor() ?></p>
+<?php } ?>
         </article>
 
-        <button class="btn btn-outline-dark" name="delete" value="<?= $data[0]->getId() ?>"
+        <button class="btn btn-outline-dark" name="delete" value="<?= $content->getId() ?>"
                 formaction="/2.1/admin/index.php"
                 type="submit">Удалить
         </button>
@@ -32,12 +36,12 @@
         <p><b>Текст новости</b><Br>
             <textarea class="form-control" name="newContent" required maxlength="5000" cols="40" rows="3"></textarea>
         </p>
-        <button class="btn btn-outline-dark" name="update" value="<?= $data[0]->getId() ?>"
+        <button class="btn btn-outline-dark" name="update" value="<?= $content->getId() ?>"
                 formaction="/2.1/admin/index.php"
                 type="submit">Редактировать
         </button>
     </form>
-
+    <?php }?>
 </div>
 </body>
 </html>

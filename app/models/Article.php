@@ -7,7 +7,7 @@ class Article extends Models
     public const TABLE = 'news';
 
     public int $id;
-    public string $author;
+//    public User $author;
     public string $title;
     public string $content;
 
@@ -35,4 +35,8 @@ class Article extends Models
         return $this->id;
     }
 
+    public function getAutohors()
+    {
+
+    }
 }

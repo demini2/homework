@@ -14,14 +14,8 @@
 <body>
 <div class="container-fluid">
     <hr>
-    <form name="test" method="get" action="/">
-        <a href="/hlam/news2.php"> Новости</a>
-        <a href="/hlam/entrance.php"> Главная</a>
-    </form>
-    <hr>
     <br>
-
-    <?php foreach ($data as $id => $article) { ?>
+    <?php foreach ($this->article  as $id => $article) { ?>
         <form name="news" method="get" action="/">
             <article style="border: 5px dotted #c68a5d; margin-bottom: 20px;">
                 <h3><a href="/2.1/admin/article.php?id=<?= $article->getId(); ?>"><?= $article->getTitle(); ?></a></h3>
@@ -31,7 +25,7 @@
     <?php } ?>
     <form name="" method="post" action="/">
         <button class="btn btn-outline-dark"
-                formaction="/2.1/admin/article.php"
+                formaction="/2.1/admin/templates/newArticle.php"
                 type="submit">Новая запись
         </button>
     </form>

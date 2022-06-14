@@ -5,15 +5,16 @@ error_reporting(E_ALL & ~E_DEPRECATED);
 ini_set('display_errors', '1');
 
 try {
-    $index = new \models\Article();
-    if (!empty($_GET['id'])) {
-        $data = $index->findById($_GET['id']);
-        include __DIR__ . '/templates/article.php';
-    } else {
-        include __DIR__ . '/templates/newArticle.php';
-    }
+    $view = new view\View();
 
-    $index->save();
+    if (!empty($_GET['id'])) {
+        $view->article = \models\Article::findById($_GET['id']);
+        $view->display('article.php');
+        $view->article[0]->save();
+    } else {
+        $view->display('newArticle.php');
+        $view->article->save();
+    }
 
 
 } catch (Exception $error) {

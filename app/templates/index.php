@@ -22,7 +22,7 @@
     <br>
     <form name="news" method="get" action="/">
         <?php
-        foreach ($data as $id => $article){ ?>
+        foreach ($this->articles as  $article){ ?>
             <article style="border: 5px dotted #c68a5d; margin-bottom: 20px;">
                 <h3><a href="/2.1/article.php?id=<?= $article->getId(); ?>"><?= $article->getTitle(); ?></a></h3>
             </article>
