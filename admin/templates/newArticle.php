@@ -20,7 +20,7 @@
             <textarea class="form-control" name="author"  maxlength="150"  rows="1"></textarea>
         </p>
         <button class="btn btn-outline-dark" name="newNews"
-                formaction="/2.1/admin/index.php"
+                formaction="/2.1/admin/?ctrl=index"
                 type="submit">Добавить новую запись
         </button>
     </form>

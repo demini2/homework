@@ -13,11 +13,20 @@
 </head>
 <body>
 <div class="container-fluid">
+    <form name="test" method="get" action="/">
+        <a href="/2.1/?ctrl=index"> Главная</a>
+    </form>
+    <hr>
 <form name="test" method="get" action="/">
     <article style="border: 5px dotted #c68a5d; margin-bottom: 30px;">
         <?php foreach ($this->article as $content) {?>
         <h2><?= $content->getTitle(); ?></h2><br>
         <p><?= $content->getContent() ?></p>
+            <?php if (!empty($content->getAuthor())) { ?>
+                <p>Автор статьи:</p>
+                <p><?= $content->getAuthor() ?></p>
+            <?php } ?>
+
         <?php }?>
     </article>
 

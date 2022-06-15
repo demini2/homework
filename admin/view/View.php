@@ -2,6 +2,8 @@
 
 namespace view;
 
+use controllers\log\Logger;
+
 class View
 {
     private array $arrayContent = [];
@@ -28,6 +30,10 @@ class View
         include $wey;
         $content = ob_get_contents();
         ob_end_clean();
+        if (empty($content)){
+            new Logger(new \Exception );
+            throw new \Exception('нет контента');
+        }
         return $content;
     }
 

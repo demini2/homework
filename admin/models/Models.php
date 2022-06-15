@@ -29,7 +29,7 @@ abstract class Models
      * @param $id
      * @return array|false
      */
-    public static function findById($id)
+    public static function findById(string $id):array|false
     {
         $db = new Bd();
         $answer = $db->query(
@@ -41,17 +41,19 @@ abstract class Models
             return false;
         }
         $author = $answer[0]->getAuthorId();
-        if (empty($author)){
+        if (!empty($author)){
             $name =\models\User::authorById($author);
             $answer[0]->setAuthor($name[0]->getAuthor());
             var_dump($answer);
             return $answer;
         }
-//        var_dump($answer);
         return $answer;
     }
 
-    private function insert(): void
+    /**
+     * @return void
+     */
+    public function insert(): void
     {
         $fields = get_object_vars($this);
         $cols = [];
@@ -81,13 +83,38 @@ abstract class Models
         (' . implode(',', $cols) . ')
         VALUES 
         (' . implode(',', array_keys($data)) . ')';
-        var_dump($data);
         $db = new Bd();
         $db->execute($sql, $data);
         $this->id = $db->getLastId();
 
     }
 
+    /**
+     * @return void
+     */
+    private function delete(): void
+    {
+        $data = [':id' => $_POST['delete']];
+        $sql = 'DELETE FROM ' . static::TABLE . ' WHERE id=:id ';
+        $db = new Bd();
+        $db->execute($sql, $data);
+    }
+
+    /**
+     * @return void
+     */
+    public function update()
+    {
+        $data = [':title' => $_POST['newTitle'], ':content' => $_POST['newContent'], 'id' => $_POST['update']];
+        $sql = 'UPDATE news SET title=:title, content=:content WHERE id=:id';
+        $db = new Bd();
+        $db->execute($sql, $data);
+    }
+
+    /**
+     *
+     * @return void
+     */
     public function save(): void
     {
         if (empty($_POST)) {
@@ -101,25 +128,9 @@ abstract class Models
             $this->content = $_POST['newContent'];
             $this->insert();
         } elseif (isset($_POST['update'])) {
-
             $this->update();
         }
-
     }
 
-    private function delete(): void
-    {
-        $data = [':id' => $_POST['delete']];
-        $sql = 'DELETE FROM ' . static::TABLE . ' WHERE id=:id ';
-        $db = new Bd();
-        $db->execute($sql, $data);
-    }
 
-    public function update()
-    {
-        $data = [':title' => $_POST['newTitle'], ':content' => $_POST['newContent'], 'id' => $_POST['update']];
-        $sql = 'UPDATE news SET title=:title, content=:content WHERE id=:id';
-        $db = new Bd();
-        $db->execute($sql, $data);
-    }
 }

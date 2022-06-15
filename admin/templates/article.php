@@ -13,12 +13,17 @@
 </head>
 <body>
 <div class="container-fluid">
+    <br>
+    <form name="test" method="get" action="/">
+        <a href="/2.1/admin/?ctrl=index"> Главная</a>
+    </form>
+    <hr>
     <form name="red" method="post" action="article.php">
         <article style="border: 5px dotted #c68a5d; margin-bottom: 30px;">
             <?php foreach ($this->article as $content) {?>
                 <h2><?= $content->getTitle(); ?></h2><br>
                 <p><?= $content->getContent() ?></p>
-            <?php if ($content->getAuthor()) { ?>
+            <?php if (!empty($content->getAuthor())) { ?>
             <p>Автор статьи:</p>
                 <p><?= $content->getAuthor() ?></p>
 <?php } ?>

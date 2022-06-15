@@ -9,13 +9,14 @@ ini_set('display_errors', '1');
 //$ctrl = $_GET['ctrl'] ?? 'error';
 //$class = '\controller\\' . ucfirst($ctrl).'Controllers';
 
+$ctrl = $_GET['ctrl'] ?? 'error';
+$class = '\app\controllers\\' . ucfirst($ctrl).'Controllers';
+echo $class;
 
 try {
-    $view = new \app\view\View();
-    $view->articles = \app\models\Article::findAll();
-    $view->display('index.php');
+    $index = new $class;
+    echo $index();
 
-var_dump($user= \app\models\User::authorById(7));
 } catch (Exception $error) {
     echo $error->getMessage();
 }

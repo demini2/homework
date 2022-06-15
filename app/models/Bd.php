@@ -3,12 +3,15 @@
 
 namespace app\models;
 
+use controllers\log\Logger;
+
 class Bd
 
 {
     protected string $host;
     protected string $login;
     protected string $password;
+    protected \PDO $dbh;
 
     /**
      * @throws \Exception
@@ -20,15 +23,18 @@ class Bd
             $this->host = $str;
             $this->login = $config->getLogin();
             $this->password = $config->getPassword();
+            $this->dbh = new \PDO($this->host, $this->login, $this->password);
         } else {
+            new Logger(new \Exception );
+
             throw new \Exception('не правильный путь к базе данных');
         }
     }
 
     public function query(string $sql, string $class, array $data = []): array|false
     {
-        $dbh = new \PDO($this->host, $this->login, $this->password);
-        $sth = $dbh->prepare($sql);
+
+        $sth = $this->dbh->prepare($sql);
         $sth->execute($data);
         return $sth->fetchAll(\PDO::FETCH_CLASS, $class);
     }

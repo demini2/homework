@@ -7,8 +7,9 @@ class Article extends Models
     public const TABLE = 'news';
 
     public int $id;
-//    public User $author;
     public string $title;
+    public string $author_id;
+    public string $author;
     public string $content;
 
     /**
@@ -35,8 +36,26 @@ class Article extends Models
         return $this->id;
     }
 
-    public function getAutohors()
+    /**
+     * @return string
+     */
+    public function getAuthorId(): string
     {
+        return $this->author_id;
+    }
 
+    /**
+     * @param string $author
+     */
+    public function setAuthor(string $author): void
+    {
+        $this->author = $author;
+    }
+    /**
+     * @return string
+     */
+    public function getAuthor(): string
+    {
+        return $this->author;
     }
 }

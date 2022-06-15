@@ -2,6 +2,7 @@
 /**
  * @var $data
  */
+
 ?>
 <!DOCTYPE HTML>
 <html lang="ru">
@@ -13,21 +14,14 @@
 </head>
 <body>
 <div class="container-fluid">
-    <hr>
-    <form name="test" method="get" action="/">
-        <a href="/hlam/news2.php"> Новости</a>
-        <a href="/hlam/entrance.php"> Главная</a>
-    </form>
-    <hr>
+
+
     <br>
     <form name="news" method="get" action="/">
-        <?php
-        foreach ($this->articles as  $article){ ?>
+        <?php foreach ($this->articles as  $article){ ?>
             <article style="border: 5px dotted #c68a5d; margin-bottom: 20px;">
-                <h3><a href="/2.1/article.php?id=<?= $article->getId(); ?>"><?= $article->getTitle(); ?></a></h3>
+                <h3><a href="/2.1/?ctrl=article&id=<?= $article->getId(); ?>"><?= $article->getTitle(); ?></a></h3>
             </article>
-
-
         <?php } ?>
     </form>
     <hr>

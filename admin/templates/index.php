@@ -18,14 +18,14 @@
     <?php foreach ($this->article  as $id => $article) { ?>
         <form name="news" method="get" action="/">
             <article style="border: 5px dotted #c68a5d; margin-bottom: 20px;">
-                <h3><a href="/2.1/admin/article.php?id=<?= $article->getId(); ?>"><?= $article->getTitle(); ?></a></h3>
+                <h3><a href="/2.1/admin/?ctrl=article&id=<?= $article->getId(); ?>"><?= $article->getTitle(); ?></a></h3>
             </article>
         </form>
 
     <?php } ?>
     <form name="" method="post" action="/">
         <button class="btn btn-outline-dark"
-                formaction="/2.1/admin/templates/newArticle.php"
+                formaction="/2.1/admin/?ctrl=newArticle"
                 type="submit">Новая запись
         </button>
     </form>

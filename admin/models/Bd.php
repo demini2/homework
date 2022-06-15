@@ -3,13 +3,15 @@
 
 namespace models;
 
+use controllers\log\Logger;
+
 class Bd
 
 {
     protected string $host;
     protected string $login;
     protected string $password;
-    protected $dbh;
+    protected \PDO $dbh;
 
     /**
      * @throws \Exception
@@ -23,6 +25,7 @@ class Bd
             $this->password = $config->getPassword();
             $this->dbh = new \PDO($this->host, $this->login, $this->password);
         } else {
+            new Logger(new \Exception);
             throw new \Exception('не правильный путь к базе данных');
         }
     }
