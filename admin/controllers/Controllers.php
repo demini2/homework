@@ -12,19 +12,34 @@ abstract class Controllers
     protected View $view;
     protected Session $session;
 
+    /**
+     * создаем в классе:
+     * класс сессии
+     * клас view
+     */
     public function __construct()
     {
         $this->session = new Session();
         $this->view = new View();
     }
 
-
+    /**
+     * проверяем прова доступа
+     * @return bool
+     */
     protected function access(): bool
     {
         return true;
     }
 
-    public function action()
+    /**
+     * выполняем права доступа
+     * ресуем шаблон
+     * или ексепшен
+     * @return mixed
+     * @throws Exception
+     */
+    public function action():mixed
     {
         if ($this->access()) {
             return $this->hendle();

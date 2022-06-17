@@ -8,7 +8,7 @@ ini_set('display_errors', '1');
 
 $ctrl = $_GET['ctrl'] ?? 'error';
 $class = 'admin\controllers\\' . ucfirst($ctrl).'Controllers';
-//echo $class;
+
 try {
     $index = new $class;
     echo $index->action();

@@ -14,6 +14,7 @@ class User
 
 
     /**
+     * получаем Id всех авторов
      * @param $id
      * @return array|false
      * @throws \Exception
@@ -47,7 +48,7 @@ class User
     }
 
     /**
-     * получаем Id всех авторов
+     * ишем Id автора по имени
      * @return array|false
      */
     public static function getAuthorId(): array|false

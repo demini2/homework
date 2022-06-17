@@ -3,6 +3,8 @@
 namespace admin\models;
 
 
+use admin\controllers\log\Logger;
+
 abstract class Models
 {
     public const TABLE = '';
@@ -10,22 +12,30 @@ abstract class Models
 
 
     /**
+     * получаем все новости
      * @return array
      * @throws \Exception
      */
     public static function findAll(): array
     {
         $db = new Bd();
-        return $db->query(
+        $arr = $db->query(
             'SELECT * FROM ' . static::TABLE,
             static::class,
             []
         );
+        if (empty($arr)) {
+            new Logger(new \Exception('нет новостей'));
+            throw new \Exception('нет новостей');
+        }
+        return $arr;
     }
 
     /**
-     * @param $id
+     * находим новость по Id
+     * @param string $id
      * @return array|false
+     * @throws \Exception
      */
     public static function findById(string $id): array|false
     {
@@ -36,13 +46,13 @@ abstract class Models
             ['id' => $id]
         );
         if (empty($answer)) {
-            return false;
+            new Logger(new \Exception('нет такой новости'));
+            throw new \Exception('нет такой новости');
         }
         $author = $answer[0]->getAuthorId();
-        if (!empty($author)){
+        if (!empty($author)) {
             $name = User::authorById($author);
             $answer[0]->setAuthor($name[0]->getAuthor());
-            var_dump($answer);
             return $answer;
         }
         return $answer;
@@ -50,17 +60,27 @@ abstract class Models
 
 
     /**
+     * получаем данные,
+     * записываем в массив,
+     * проверяем наличие автора в безе
+     * если есть пишем его Id
+     * если нет создаем новый id
+     * и вносим автора в базу
+     * передаем sql запрос в базу
      * @return void
      */
     public function insert(): void
     {
+
         $fields = get_object_vars($this);
         $cols = [];
         $data = [];
+
         foreach ($fields as $name => $value) {
             if ('id' === $name) {
                 continue;
             }
+
             if ('author_id' === $name) {
                 $id = User::getAuthorId();
                 if (!empty($id)) {
@@ -68,12 +88,14 @@ abstract class Models
                     $cols[] = $name;
                     continue;
                 }
+
                 User::newIdAuthors();
                 $newId = User::getAuthorId();
                 $data[':' . $name] = $newId[0]->getId();
                 $cols[] = $name;
                 continue;
             }
+
             $cols[] = $name;
             $data[':' . $name] = $value;
         }
@@ -85,10 +107,11 @@ abstract class Models
         $db = new Bd();
         $db->execute($sql, $data);
         $this->id = $db->getLastId();
-
     }
 
     /**
+     * удаляем конкретную новость
+     * по Id
      * @return void
      */
     private function delete(): void
@@ -100,9 +123,11 @@ abstract class Models
     }
 
     /**
+     * обновление данных в поле
+     * по данному Id
      * @return void
      */
-    public function update()
+    public function update(): void
     {
         $data = [':title' => $_POST['newTitle'], ':content' => $_POST['newContent'], 'id' => $_POST['update']];
         $sql = 'UPDATE news SET title=:title, content=:content WHERE id=:id';
@@ -111,7 +136,8 @@ abstract class Models
     }
 
     /**
-     *
+     *определяем какую функцию вызывать,
+     * удаление, обновление, запись
      * @return void
      */
     public function save(): void

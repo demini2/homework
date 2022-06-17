@@ -13,6 +13,7 @@ class Article extends Models
     public string $content;
 
     /**
+     * получаем конттент
      * @return string
      */
     public function getContent(): string
@@ -21,6 +22,7 @@ class Article extends Models
     }
 
     /**
+     * получаем заголовок
      * @return string
      */
     public function getTitle(): string
@@ -29,6 +31,7 @@ class Article extends Models
     }
 
     /**
+     * получаем Id
      * @return int
      */
     public function getId(): int
@@ -37,6 +40,7 @@ class Article extends Models
     }
 
     /**
+     * получаем Id автора
      * @return string
      */
     public function getAuthorId(): string
@@ -45,6 +49,7 @@ class Article extends Models
     }
 
     /**
+     * устанавливаем имя автора
      * @param string $author
      */
     public function setAuthor(string $author): void
@@ -52,6 +57,7 @@ class Article extends Models
         $this->author = $author;
     }
     /**
+     * получаем имя автора
      * @return string
      */
     public function getAuthor(): string
