@@ -1,18 +1,20 @@
 <?php
 
-namespace controllers;
+namespace admin\controllers;
 
-use controllers\log\Logger;
+use admin\controllers\log\Logger;
 use Exception;
-use view\View;
+use admin\view\View;
 
 abstract class Controllers
 {
 
     protected View $view;
+    protected Session $session;
 
     public function __construct()
     {
+        $this->session = new Session();
         $this->view = new View();
     }
 
@@ -24,10 +26,10 @@ abstract class Controllers
 
     public function action()
     {
-        if ($this->access()){
-           return $this->hendle();
-        }else{
-            new Logger(new Exception );
+        if ($this->access()) {
+            return $this->hendle();
+        } else {
+            new Logger(new Exception);
             throw new Exception('нет доступа');
 
         }

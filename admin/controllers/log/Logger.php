@@ -1,6 +1,6 @@
 <?php
 
-namespace controllers\log;
+namespace admin\controllers\log;
 
 class Logger
 {

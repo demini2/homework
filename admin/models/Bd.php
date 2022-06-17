@@ -1,9 +1,9 @@
 <?php
 
 
-namespace models;
+namespace admin\models;
 
-use controllers\log\Logger;
+use admin\controllers\log\Logger;
 
 class Bd
 

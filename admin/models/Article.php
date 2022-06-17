@@ -1,6 +1,6 @@
 <?php
 
-namespace models;
+namespace admin\models;
 
 class Article extends Models
 {
@@ -58,4 +58,5 @@ class Article extends Models
     {
         return $this->author;
     }
+
 }

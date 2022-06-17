@@ -1,8 +1,8 @@
 <?php
 
-namespace view;
+namespace admin\view;
 
-use controllers\log\Logger;
+use admin\controllers\log\Logger;
 
 class View
 {

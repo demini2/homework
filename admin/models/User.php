@@ -1,16 +1,17 @@
 <?php
 
-namespace models;
+namespace admin\models;
 
-use controllers\log\Logger;
+use admin\controllers\log\Logger;
+
 
 class User
 {
 
     private const TABLE = 'authors';
     public int $id;
-//    public string $author_id;
     public string $author;
+
 
     /**
      * @param $id
@@ -19,7 +20,7 @@ class User
      */
     public static function authorById($id): array|false
     {
-        $db = new Bd();
+        $db=new Bd();
         $answer = $db->query(
             'SELECT * FROM ' . static::TABLE . ' WHERE id=:id ',
             static::class,
@@ -32,21 +33,26 @@ class User
         return $answer;
     }
 
-    public static function newIdAuthors()
+    /**
+     * добовляем нового автора с присвоением Id
+     * @return array|false
+     */
+    public static function newIdAuthors(): array|false
     {
-        $db = new Bd();
-        $sqlAuthor = 'INSERT INTO authors (author) VALUES (:author)';
+        $db=new Bd();
+        $sqlAuthor = 'INSERT INTO ' . User::TABLE . ' (author) VALUES (:author)';
         $nameAuthor = [':author' => $_POST['author']];
         return $db->query($sqlAuthor, static::class, $nameAuthor);
 
     }
 
     /**
-     *
+     * получаем Id всех авторов
+     * @return array|false
      */
-    public static function getAuthorId()
+    public static function getAuthorId(): array|false
     {
-        $db = new Bd();
+        $db=new Bd();
         $answer = $db->query(
             'SELECT * FROM ' . static::TABLE . ' WHERE author=:author ',
             static::class,
@@ -56,6 +62,7 @@ class User
     }
 
     /**
+     * получаем Id автора
      * @return int
      */
     public function getId(): int
@@ -64,6 +71,7 @@ class User
     }
 
     /**
+     * получаем имя автора
      * @return string
      */
     public function getAuthor(): string

@@ -1,9 +1,7 @@
 <?php
 
-namespace models;
+namespace admin\models;
 
-
-use app\models\User;
 
 abstract class Models
 {
@@ -29,7 +27,7 @@ abstract class Models
      * @param $id
      * @return array|false
      */
-    public static function findById(string $id):array|false
+    public static function findById(string $id): array|false
     {
         $db = new Bd();
         $answer = $db->query(
@@ -42,13 +40,14 @@ abstract class Models
         }
         $author = $answer[0]->getAuthorId();
         if (!empty($author)){
-            $name =\models\User::authorById($author);
+            $name = User::authorById($author);
             $answer[0]->setAuthor($name[0]->getAuthor());
             var_dump($answer);
             return $answer;
         }
         return $answer;
     }
+
 
     /**
      * @return void
@@ -63,14 +62,14 @@ abstract class Models
                 continue;
             }
             if ('author_id' === $name) {
-                $id = \models\User::getAuthorId();
+                $id = User::getAuthorId();
                 if (!empty($id)) {
                     $data[':' . $name] = $id[0]->getId();
                     $cols[] = $name;
                     continue;
                 }
-                \models\User::newIdAuthors();
-                $newId = \models\User::getAuthorId();
+                User::newIdAuthors();
+                $newId = User::getAuthorId();
                 $data[':' . $name] = $newId[0]->getId();
                 $cols[] = $name;
                 continue;
@@ -131,6 +130,5 @@ abstract class Models
             $this->update();
         }
     }
-
 
 }

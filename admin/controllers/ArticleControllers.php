@@ -1,8 +1,8 @@
 <?php
 
-namespace controllers;
+namespace admin\controllers;
 
-use models\Article;
+use admin\models\Article;
 
 class ArticleControllers extends Controllers
 {

@@ -20,13 +20,14 @@
     <hr>
     <form name="red" method="post" action="article.php">
         <article style="border: 5px dotted #c68a5d; margin-bottom: 30px;">
-            <?php foreach ($this->article as $content) {?>
-                <h2><?= $content->getTitle(); ?></h2><br>
-                <p><?= $content->getContent() ?></p>
+            <?php foreach ($this->article as $content) { ?>
+            <h2><?= $content->getTitle(); ?></h2><br>
+            <p><?= $content->getContent() ?></p>
             <?php if (!empty($content->getAuthor())) { ?>
-            <p>Автор статьи:</p>
+                <p>Автор статьи:</p>
                 <p><?= $content->getAuthor() ?></p>
-<?php } ?>
+            <?php } ?>
+
         </article>
 
         <button class="btn btn-outline-dark" name="delete" value="<?= $content->getId() ?>"
@@ -46,7 +47,7 @@
                 type="submit">Редактировать
         </button>
     </form>
-    <?php }?>
+    <?php } ?>
 </div>
 </body>
 </html>

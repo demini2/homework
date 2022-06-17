@@ -1,13 +1,13 @@
 <?php
 
-include __DIR__ . '/autoLoad.php';
+include __DIR__ . '/../autoLoad.php';
 
 error_reporting(E_ALL & ~E_DEPRECATED);
 ini_set('display_errors', '1');
 
 
 $ctrl = $_GET['ctrl'] ?? 'error';
-$class = '\controllers\\' . ucfirst($ctrl).'Controllers';
+$class = 'admin\controllers\\' . ucfirst($ctrl).'Controllers';
 //echo $class;
 try {
     $index = new $class;

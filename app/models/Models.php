@@ -31,19 +31,18 @@ abstract class Models
     {
         $db = new Bd();
         $answer = $db->query(
-            'SELECT * FROM ' . static::TABLE . ' WHERE id=:id ',
+            'SELECT n.title, n.content, a.author FROM '
+            . static::TABLE .
+            ' AS n INNER JOIN authors AS a 
+            on n.author_id = a.id 
+            WHERE n.id=:id;',
             static::class,
             ['id' => $id]
         );
         if (empty($answer)) {
             return false;
         }
-        $author = $answer[0]->getAuthorId();
-        if (!empty($author)){
-            $name =User::authorById($author);
-            $answer[0]->setAuthor($name[0]->getAuthor());
-            return $answer;
-        }
+
         return $answer;
     }
 }
