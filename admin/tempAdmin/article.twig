@@ -37,7 +37,7 @@
             <textarea class="form-control" name="newContent" required maxlength="5000" cols="40" rows="3"></textarea>
         </p>
         <button class="btn btn-outline-dark" name="update" value="{{ content.getId() }}"
-                formaction="/2.1/admin/?ctrl=article&id=<?= $content->getId() ?>"
+                formaction="/2.1/admin/?ctrl=article&id={{  content.getId() }}"
                 type="submit">Редактировать
         </button>
     </form>
