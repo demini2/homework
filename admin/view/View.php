@@ -37,13 +37,14 @@ class View
     }
 
     /**
+     * буфируем шаблон
      * @param string $template
      * @return string
      * @throws \Exception
      */
     private function render(string $template): string
     {
-        $wey = __DIR__ . '/../templates/' . $template;
+        $wey = __DIR__ . '/../tempAdmin/' . $template;
         ob_clean();
         include $wey;
         $content = ob_get_contents();
@@ -56,6 +57,7 @@ class View
     }
 
     /**
+     * выводим шаблон на экран через буфер
      * @param string $template
      * @return void
      * @throws \Exception

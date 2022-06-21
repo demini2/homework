@@ -142,9 +142,7 @@ abstract class Models
      */
     public function save(): void
     {
-        if (empty($_POST)) {
-            exit();
-        }
+
         if (isset($_POST['delete'])) {
             $this->delete();
         } elseif (isset($_POST['newNews'])) {

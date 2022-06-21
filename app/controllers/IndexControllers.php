@@ -3,13 +3,22 @@
 namespace app\controllers;
 
 
+use admin\models\Article;
 
 class IndexControllers extends Controllers
 {
+    /**
+     * рисуем все новости
+     * @return void
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
     protected function hendle()
     {
-        $this->view->articles = \app\models\Article::findAll();
-        $this->view->display('index.php');
-
+        echo $this->environment->render('index.twig', [
+            'arr' => Article::findAll()
+        ]);
     }
+
 }

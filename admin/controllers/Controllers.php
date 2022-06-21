@@ -5,12 +5,15 @@ namespace admin\controllers;
 use admin\controllers\log\Logger;
 use Exception;
 use admin\view\View;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 abstract class Controllers
 {
 
     protected View $view;
     protected Session $session;
+    public Environment $environment;
 
     /**
      * создаем в классе:
@@ -21,6 +24,8 @@ abstract class Controllers
     {
         $this->session = new Session();
         $this->view = new View();
+        $file = new FilesystemLoader('tempAdmin');
+        $this->environment = new Environment($file);
     }
 
     /**
@@ -39,12 +44,12 @@ abstract class Controllers
      * @return mixed
      * @throws Exception
      */
-    public function action():mixed
+    public function action(): mixed
     {
         if ($this->access()) {
             return $this->hendle();
         } else {
-            new Logger(new Exception);
+            new Logger(new Exception('нет доступа'));
             throw new Exception('нет доступа');
 
         }

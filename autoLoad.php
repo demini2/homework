@@ -12,7 +12,7 @@ spl_autoload_register(function ($className) {
         require $file;
     } else {
         new \admin\controllers\log\Logger(new Exception );
-        throw new Exception('в доступе отказано');
+        throw new Exception(' в доступе отказано');
     }
 }
 );

@@ -8,7 +8,7 @@ class ArticleControllers extends Controllers
 {
     /**
      * принимаем Id новости
-     * коиорую будем выводить,
+     * которую будем выводить,
      * проверяем права доступа
      * если есть рисуем шаблон
      * решаем какой метод вызывать
@@ -16,11 +16,14 @@ class ArticleControllers extends Controllers
      * @return void
      * @throws \Exception
      */
-    protected function hendle():void
+    protected function hendle(): void
     {
-            $this->view->article = Article::findById($_GET['id']);
-            $this->view->display('article.php');
-            $this->view->article[0]->save();
+        echo $this->environment->render('article.twig', [
+            'arr' => Article::findById($_GET['id'])
+        ]);
+        if (!empty($_POST)){
+            $this->view->article->seve();
+        }
 
     }
 

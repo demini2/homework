@@ -2,25 +2,22 @@
 
 namespace app\controllers;
 
-use app\models\Article;
+
+use admin\models\Article;
 
 class ArticleControllers extends Controllers
 {
-    protected function access(): bool
-    {
-        return parent::access();
-    }
-
+    /**
+     * рисуем одну нвость по Id
+     * @return void
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
     protected function hendle()
     {
-
-            $this->view->article = Article::findById($_GET['id']);
-            $this->view->display('article.php');
-
-    }
-
-    public function __invoke()
-    {
-        parent::__invoke();
+        echo $this->environment->render('article.twig', [
+            'arr' => Article::findById($_GET['id'])
+        ]);
     }
 }
