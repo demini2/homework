@@ -22,7 +22,7 @@ class View
      * @param string $name
      * @return array|null
      */
-    public function __get(string $name): array|null
+    public function __get(string $name): ?array
     {
         return $this->arrayContent[$name] ?? null;
     }
@@ -42,7 +42,7 @@ class View
      * @return string
      * @throws \Exception
      */
-    private function render(string $template): string
+    private function render(string $template, array $arr=[]): string
     {
         $wey = __DIR__ . '/../tempAdmin/' . $template;
         ob_clean();
@@ -59,11 +59,12 @@ class View
     /**
      * выводим шаблон на экран через буфер
      * @param string $template
+     * @param array $arr
      * @return void
      * @throws \Exception
      */
-    public function display(string $template): void
+    public function display(string $template, array $arr=[]): void
     {
-        echo $this->render($template);
+        echo $this->render($template,$arr);
     }
 }

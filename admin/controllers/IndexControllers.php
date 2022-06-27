@@ -3,26 +3,25 @@
 namespace admin\controllers;
 
 use admin\models\Article;
+use Exception;
 
+/**
+ * Контроллер для просмотра всех новостей
+ */
 class IndexControllers extends Controllers
 {
     /**
      * получаем все новости
      * проверяем права доступа
      * если есть рисуем шаблон
-     * решаем какой метод вызывать
-     *
      * @return void
-     * @throws \Exception
+     * @throws Exception
      */
-    protected function hendle(): void
+    protected function handle(): void
     {
-
         echo $this->environment->render('index.twig', [
             'arr' => Article::findAll()
         ]);
-        if (!empty($_POST)){
-            $this->view->article->seve();
-        }
+
     }
 }

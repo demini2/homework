@@ -3,10 +3,10 @@
 include __DIR__.'/../vendor/autoload.php';
 
 spl_autoload_register(function ($className) {
-    $Base = __DIR__ . '/';
+    $base = __DIR__ . '/';
 
     $way = str_replace('\\', '/', $className);
-    $file = $Base . $way . '.php';
+    $file = $base . $way . '.php';
 
     if (file_exists($file)) {
         require $file;

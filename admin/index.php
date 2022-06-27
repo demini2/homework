@@ -15,4 +15,6 @@ try {
 
 } catch (Exception $error) {
     echo $error->getMessage();
+    echo $error->getFile();
+
 }

@@ -43,7 +43,7 @@ class Article extends Models
      * получаем Id автора
      * @return string
      */
-    public function getAuthorId(): string
+    public  function getAuthorId(): string
     {
         return $this->author_id;
     }

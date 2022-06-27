@@ -2,7 +2,7 @@
 
 namespace app\controllers;
 
-use admin\controllers\Session;
+
 use Exception;
 use app\view\View;
 use Twig\Environment;
@@ -12,11 +12,10 @@ abstract class Controllers
 {
 
     protected View $view;
-    protected Session $session;
+
 
     public function __construct()
     {
-        $this->session = new Session();
         $this->view = new View();
         $file = new FilesystemLoader(__DIR__.'/../temp');
         $this->environment = new Environment($file);

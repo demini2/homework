@@ -4,32 +4,33 @@
 namespace admin\models;
 
 use admin\controllers\log\Logger;
+use Exception;
+use Generator;
+use PDO;
 
+/**
+ * todo - PhpDoc везде
+ */
 class Bd
-
 {
     protected string $host;
     protected string $login;
     protected string $password;
-    protected \PDO $dbh;
+    protected PDO $dbh;
 
     /**
      * устанавливаем соннект с базой данных
      * если не удалось ексепшен
-     * @throws \Exception
+     * @throws Exception
      */
     public function __construct()
     {
         $config = new Config();
-        if (is_string($str = $config->getHost())) {
-            $this->host = $str;
-            $this->login = $config->getLogin();
-            $this->password = $config->getPassword();
-            $this->dbh = new \PDO($this->host, $this->login, $this->password);
-        } else {
-            new Logger(new \Exception);
-            throw new \Exception('не правильный путь к базе данных');
-        }
+
+        $this->host = $config->getHost();
+        $this->login = $config->getLogin();
+        $this->password = $config->getPassword();
+        $this->dbh = new PDO($this->host, $this->login, $this->password);
     }
 
     /**
@@ -40,20 +41,41 @@ class Bd
      * @param string $sql
      * @param string $class
      * @param array $data
-     * @return array|false
+     * @return array|null
      */
-    public function query(string $sql, string $class, array $data = []): array|false
+    public function query(string $sql, string $class, array $data = []): ?array
     {
-
         $sth = $this->dbh->prepare($sql);
         $sth->execute($data);
-        return $sth->fetchAll(\PDO::FETCH_CLASS, $class);
+        $result = $sth->fetchAll(PDO::FETCH_CLASS, $class);
+        if (false === $result) {
+            new Logger(new \Exception);
+            throw new \Exception('Ошибка связанная с базой данных');
+        }
+        return $result;
+    }
+
+    /**
+     * @param string $sql
+     * @param string $class
+     * @param array $data
+     * @return Generator
+     */
+    public function queryEach(string $sql, string $class, array $data = []): Generator
+    {
+        $sth = $this->dbh->prepare(
+            $sql, [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY]);
+        $sth->execute($data);
+        $sth->setFetchMode(PDO::FETCH_CLASS, $class);
+        while ($res = $sth->fetch()) {
+            yield $res;
+        }
     }
 
     /**
      * принимаем sql запрос
      * и массив подстановки (по у молчанию пустой)
-     * получим тру в случае успеха
+     * получим true в случае успеха
      *
      * @param string $sql
      * @param array $params
@@ -61,8 +83,7 @@ class Bd
      */
     public function execute(string $sql, array $params = []): bool
     {
-        $dbh = new \PDO($this->host, $this->login, $this->password);
-        $sth = $dbh->prepare($sql);
+        $sth = $this->dbh->prepare($sql);
         return $sth->execute($params);
     }
 

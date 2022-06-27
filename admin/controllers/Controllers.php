@@ -8,11 +8,17 @@ use admin\view\View;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
+/**
+ * todo - PhpDoc
+ */
 abstract class Controllers
 {
-
+    /** @var View $view */
     protected View $view;
-    protected Session $session;
+
+
+
+    /**@var Environment */
     public Environment $environment;
 
     /**
@@ -22,7 +28,7 @@ abstract class Controllers
      */
     public function __construct()
     {
-        $this->session = new Session();
+
         $this->view = new View();
         $file = new FilesystemLoader('tempAdmin');
         $this->environment = new Environment($file);
@@ -47,7 +53,7 @@ abstract class Controllers
     public function action(): mixed
     {
         if ($this->access()) {
-            return $this->hendle();
+            return $this->handle();
         } else {
             new Logger(new Exception('нет доступа'));
             throw new Exception('нет доступа');
@@ -55,5 +61,5 @@ abstract class Controllers
         }
     }
 
-    abstract protected function hendle();
+    abstract protected function handle();
 }

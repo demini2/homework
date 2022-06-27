@@ -3,12 +3,12 @@
 namespace admin\models;
 
 use admin\controllers\log\Logger;
+use Exception;
 
 
-class User
+class User extends Models
 {
-
-    private const TABLE = 'authors';
+    public const TABLE = 'authors';
     public int $id;
     public string $author;
 
@@ -16,49 +16,59 @@ class User
     /**
      * получаем Id всех авторов
      * @param $id
-     * @return array|false
-     * @throws \Exception
+     * @return array|null
+     * @throws Exception
      */
-    public static function authorById($id): array|false
+    public static function authorById($id): ?array
     {
-        $db=new Bd();
+        $db = new Bd();
         $answer = $db->query(
             'SELECT * FROM ' . static::TABLE . ' WHERE id=:id ',
             static::class,
             ['id' => $id]
         );
-        if (empty($answer)) {
-            new Logger(new \Exception);
-            throw new \Exception('Ошибка связанная с базой данных');
+        if (false === $answer) {
+            return null;
         }
         return $answer;
     }
 
     /**
      * добовляем нового автора с присвоением Id
-     * @return array|false
+     * @param string $name
+     * @return array|null
+     * @throws Exception
      */
-    public static function newIdAuthors(): array|false
+    public function newAuthors(string $name): ?array
     {
-        $db=new Bd();
+        $db = new Bd();
         $sqlAuthor = 'INSERT INTO ' . User::TABLE . ' (author) VALUES (:author)';
-        $nameAuthor = [':author' => $_POST['author']];
-        return $db->query($sqlAuthor, static::class, $nameAuthor);
+        $nameAuthor = [':author' => $name];
+        $res = $db->query($sqlAuthor, static::class, $nameAuthor);
+        if (false === $res) {
+            return null;
+        }
+        return $res;
 
     }
 
     /**
      * ишем Id автора по имени
-     * @return array|false
+     * @param string $name
+     * @return array|null
+     * @throws Exception
      */
-    public static function getAuthorId(): array|false
+    public function issetAuthor(string $name): ?array
     {
-        $db=new Bd();
+        $db = new Bd();
         $answer = $db->query(
-            'SELECT * FROM ' . static::TABLE . ' WHERE author=:author ',
+            'SELECT * FROM ' . static::TABLE . ' WHERE author=:author',
             static::class,
-            ['author' => $_POST['author']]
+            [':author' => $name]
         );
+        if (false === $answer) {
+            return null;
+        }
         return $answer;
     }
 
@@ -80,4 +90,12 @@ class User
         return $this->author;
     }
 
+    /**
+     * @param string $name
+     * @return void
+     */
+    public function setAuthor(string $name):void
+    {
+        $this->author = $name;
+    }
 }
