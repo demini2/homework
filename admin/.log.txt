@@ -1,0 +1,1 @@
+2022-06-24  MSK17:42:; 14;  /home/mihail/PhpstormProjects/homework/2.1/autoload.php; 0;  
