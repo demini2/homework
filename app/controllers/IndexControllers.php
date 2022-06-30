@@ -5,6 +5,10 @@ namespace app\controllers;
 
 use admin\models\Article;
 
+/**
+ * класс-контроллер
+ * рисует шаблон и выводит все новости
+ */
 class IndexControllers extends Controllers
 {
     /**
@@ -14,7 +18,7 @@ class IndexControllers extends Controllers
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    protected function hendle()
+    protected function handle()
     {
         echo $this->environment->render('index.twig', [
             'arr' => Article::findAll()

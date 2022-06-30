@@ -2,16 +2,38 @@
 
 namespace admin\models;
 
-use admin\controllers\log\Logger;
 use Exception;
 
-
+/**
+ * класс предоставляет автора как объект
+ */
 class User extends Models
 {
+    /** константа названия таблици */
     public const TABLE = 'authors';
+
+    /** @var int Id автора  */
     public int $id;
+
+    /** @var string имя автора  */
     public string $author;
 
+    /**
+     * @param string $nameAuthor
+     * @return int
+     * @throws \Exception
+     */
+    public function getAuthorId(string $nameAuthor):int
+    {
+
+        $id = $this->issetAuthor($nameAuthor);
+        if (!empty($id)) {
+            return $id[0]->getId();
+        }
+        $this->newAuthors($nameAuthor);
+        $infoUser = $this->issetAuthor($nameAuthor);
+        return $infoUser[0]->getId();
+    }
 
     /**
      * получаем Id всех авторов
@@ -94,7 +116,7 @@ class User extends Models
      * @param string $name
      * @return void
      */
-    public function setAuthor(string $name):void
+    public function setAuthor(string $name): void
     {
         $this->author = $name;
     }

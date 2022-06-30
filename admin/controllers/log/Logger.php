@@ -5,6 +5,10 @@ namespace admin\controllers\log;
 use DateTimeImmutable;
 use Exception;
 
+/**
+ * класс логгер записывает в текстовый фаил все вызванные исключения
+ * записывая где произошло исключение и время
+ */
 class Logger
 {
     /**
@@ -15,7 +19,7 @@ class Logger
      *
      * @param Exception $exception
      */
-    public function __construct(Exception $exception)
+    public function loog(Exception $exception): void
     {
         $date = new DateTimeImmutable();
         $time = $date->format('Y-m-d \ TH:i:');
@@ -26,9 +30,9 @@ class Logger
 
         $array = "$time; $line;  $file; $code; $mess \n";
 
-        $way = __DIR__.'/log.txt';
+        $way = __DIR__ . '/log.txt';
 
-        file_put_contents($way, $array,FILE_APPEND);
+        file_put_contents($way, $array, FILE_APPEND);
 
     }
 

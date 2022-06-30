@@ -1,15 +1,27 @@
 <?php
 
 namespace admin\models;
-
+/**
+ * клас предосталяет новости
+ * в виде объекта
+ */
 class Article extends Models
 {
+    /** название таблицы в БД*/
     public const TABLE = 'news';
 
+    /** @var int Id новости */
     public int $id;
+
+    /** @var string заголовок новости */
     public string $title;
+
+    /** @var string Id автора новости */
     public string $author_id;
+
+    /** @var string имя автора */
     public string $author;
+    /** @var string основной текст новости */
     public string $content;
 
     /**
@@ -43,7 +55,7 @@ class Article extends Models
      * получаем Id автора
      * @return string
      */
-    public  function getAuthorId(): string
+    public function getAuthorId(): string
     {
         return $this->author_id;
     }
@@ -56,6 +68,7 @@ class Article extends Models
     {
         $this->author = $author;
     }
+
     /**
      * получаем имя автора
      * @return string

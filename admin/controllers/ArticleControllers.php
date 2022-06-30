@@ -6,6 +6,11 @@ use admin\models\Article;
 use admin\models\User;
 use Exception;
 
+/**
+ * класс-контроллер решует шаблон
+ * заполняет его информацией
+ * и обрабатывает запрос пользователя
+ */
 class ArticleControllers extends Controllers
 {
     /**
@@ -14,15 +19,21 @@ class ArticleControllers extends Controllers
      * проверяем права доступа
      * если есть рисуем шаблон
      * решаем какой метод вызывать
-     *
      * @return void
-     * @throws Exception
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     * @throws \Exception
      */
     protected function handle(): void
     {
         if (!empty($_GET)) {
+            $news = Article::findById($_GET['id']);
+            $idAuthor = User::authorById($news[0]->getAuthorId());
+            $news[0]->setAuthor($idAuthor[0]->getAuthor());
+
             echo $this->environment->render('article.twig', [
-                'arr' => Article::findById($_GET['id'])
+                'arr' => $news
             ]);
             if (!empty($_POST)) {
                 $article = new Article();
@@ -30,7 +41,7 @@ class ArticleControllers extends Controllers
                 $article->title = $_POST['newTitle'];
                 $article->content = $_POST['newContent'];
                 $article->save();
-                $this->view->display('action.php');
+                header('Location: ?ctrl=article&id=' . $article->getId());
             }
         }
     }

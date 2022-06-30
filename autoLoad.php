@@ -1,18 +1,24 @@
 <?php
 
-include __DIR__.'/../vendor/autoload.php';
+use admin\controllers\log\Logger;
 
-spl_autoload_register(function ($className) {
-    $base = __DIR__ . '/';
+include __DIR__ . '/../vendor/autoload.php';
 
-    $way = str_replace('\\', '/', $className);
-    $file = $base . $way . '.php';
+spl_autoload_register(
+/**
+ * @throws Exception
+ */
+    function ($className) {
+        $base = __DIR__ . '/';
 
-    if (file_exists($file)) {
-        require $file;
-    } else {
-        new \admin\controllers\log\Logger(new Exception );
-        throw new Exception(' в доступе отказано');
+        $way = str_replace('\\', '/', $className);
+        $file = $base . $way . '.php';
+
+        if (file_exists($file)) {
+            require $file;
+        } else {
+            new Logger(new Exception);
+            throw new Exception(' в доступе отказано');
+        }
     }
-}
 );

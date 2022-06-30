@@ -6,9 +6,15 @@ namespace admin\models;
 use admin\controllers\log\Logger;
 use Exception;
 
+/**
+ * исходный базавый класс
+ */
 abstract class Models
 {
+    /** константа названия таблицы*/
     public const TABLE = '';
+
+    /** @var int Id новости в БД */
     public int $id;
 
 
@@ -26,8 +32,9 @@ abstract class Models
             []
         );
         if (empty($arr)) {
-//            new Logger(new Exception('нет новостей'));
-//            throw new Exception('нет новостей');
+            $log = new Logger();
+            $log->loog(new Exception('нет новостей'));
+            throw new Exception('нет новостей');
         }
         return $arr;
     }
@@ -36,7 +43,7 @@ abstract class Models
      * находим новость по Id
      * @param string $id
      * @return array
-     * @throws Exception
+     * @throws \Exception
      */
     public static function findById(string $id): array
     {
@@ -47,12 +54,10 @@ abstract class Models
             ['id' => $id]
         );
         if (empty($answer)) {
-            new Logger(new Exception('нет такой новости'));
+            $log = new Logger();
+            $log->loog(new Exception('нет такой новости'));
             throw new Exception('нет такой новости');
         }
-
-        $name = User::authorById($answer[0]->getAuthorId());
-        $answer[0]->setAuthor($name[0]->getAuthor());
         return $answer;
 
     }
@@ -70,7 +75,6 @@ abstract class Models
      */
     public function insert(): void
     {
-        $user = new User();
         $fields = get_object_vars($this);
 
         $cols = [];
@@ -80,23 +84,10 @@ abstract class Models
             if ('id' === $name) {
                 continue;
             }
-
-            if ('author_id' === $name) {
-                $id = $user->issetAuthor($this->author_id);
-                if (!empty($id)) {
-                    $data[':' . $name] = $id[0]->getId();
-                    $cols[] = $name;
-                    continue;
-                }
-                $user->newAuthors($this->author_id);
-                $infoUser = $user->issetAuthor($this->author_id);
-                $data[':' . $name] = $infoUser[0]->getId();
-                $cols[] = $name;
-                continue;
-            }
             $cols[] = $name;
             $data[':' . $name] = $value;
         }
+
         $sql = 'INSERT INTO ' . static::TABLE . '
         (' . implode(',', $cols) . ')
         VALUES 
@@ -126,22 +117,39 @@ abstract class Models
      */
     public function update(): void
     {
-        $data = [':title' => $this->title, ':content' => $this->content, 'id' => $this->id];
-        $sql = 'UPDATE ' . static::TABLE . ' SET title=:title, content=:content WHERE id=:id';
+        $fields = get_object_vars($this);
+
+        $cols = [];
+        $data = [];
+
+        foreach ($fields as $name => $value) {
+            if ('id' === $name) {
+                continue;
+            }
+            $cols[] = $name . ' = :' . $name;
+            $data[':' . $name] = $value;
+        }
+
+        $sql = 'UPDATE ' . static::TABLE . ' SET ' .
+            implode(', ', $cols) .
+            ' WHERE id = ' . $this->id;
+
         $db = new Bd();
         $db->execute($sql, $data);
+
     }
 
     /**
      * определяем какую функцию вызывать,
      * обновление, запись
      * @return void
+     * @throws Exception
      */
     public function save(): void
     {
         if (isset($this->id)) {
             $this->update();
-            exit;
+            return;
         }
         $this->insert();
 

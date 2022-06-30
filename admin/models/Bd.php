@@ -9,13 +9,17 @@ use Generator;
 use PDO;
 
 /**
- * todo - PhpDoc везде
+ * класс устанавливающий связь с базой данных
  */
 class Bd
 {
+    /** @var string имя хоста */
     protected string $host;
+    /** @var string логин */
     protected string $login;
+    /** @var string пароль */
     protected string $password;
+    /** @var PDO объект класса ПДО */
     protected PDO $dbh;
 
     /**
@@ -42,6 +46,7 @@ class Bd
      * @param string $class
      * @param array $data
      * @return array|null
+     * @throws Exception
      */
     public function query(string $sql, string $class, array $data = []): ?array
     {
@@ -49,8 +54,9 @@ class Bd
         $sth->execute($data);
         $result = $sth->fetchAll(PDO::FETCH_CLASS, $class);
         if (false === $result) {
-            new Logger(new \Exception);
-            throw new \Exception('Ошибка связанная с базой данных');
+            $log = new Logger();
+            $log->loog(new Exception('Ошибка связанная с базой данных'));
+            throw new Exception('Ошибка связанная с базой данных');
         }
         return $result;
     }

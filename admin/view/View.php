@@ -3,9 +3,16 @@
 namespace admin\view;
 
 use admin\controllers\log\Logger;
+use Exception;
 
+/**
+ * класс отображения шаблонов
+ */
 class View
 {
+    /**
+     * @var array массив свойств и значений
+     */
     private array $arrayContent = [];
 
     /**
@@ -50,8 +57,9 @@ class View
         $content = ob_get_contents();
         ob_end_clean();
         if (empty($content)) {
-            new Logger(new \Exception);
-            throw new \Exception('нет контента');
+            $loog = new Logger();
+            $loog->loog(new Exception('нет контента'));
+            throw new Exception('нет контента');
         }
         return $content;
     }

@@ -8,12 +8,20 @@ use app\view\View;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
+/**
+ * базовый класс контроллера
+ */
 abstract class Controllers
 {
-
+    /**
+     * @var \app\view\View объект класса
+     */
     protected View $view;
 
-
+    /**
+     * создаем объект класса вью
+     * и подключаем твиг
+     */
     public function __construct()
     {
         $this->view = new View();
@@ -40,11 +48,11 @@ abstract class Controllers
     public function action()
     {
         if ($this->access()) {
-            return $this->hendle();
+            return $this->handle();
         } else {
             throw new Exception('нет доступа');
         }
     }
 
-    abstract protected function hendle();
+    abstract protected function handle();
 }

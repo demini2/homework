@@ -9,13 +9,13 @@ use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
 /**
- * todo - PhpDoc
+ * базовый класс контроллера
+ * проверяет права доступа и рисует шаблон
  */
 abstract class Controllers
 {
     /** @var View $view */
     protected View $view;
-
 
 
     /**@var Environment */
@@ -55,7 +55,8 @@ abstract class Controllers
         if ($this->access()) {
             return $this->handle();
         } else {
-            new Logger(new Exception('нет доступа'));
+            $loog = new Logger();
+            $loog->loog(new Exception('нет доступа'));
             throw new Exception('нет доступа');
 
         }
