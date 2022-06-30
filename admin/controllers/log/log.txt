@@ -5,3 +5,6 @@
 2022-06-30  MSK13:45:; 20;  /home/mihail/PhpstormProjects/homework/2.1/autoLoad.php; 0;  
 2022-06-30  MSK13:45:; 20;  /home/mihail/PhpstormProjects/homework/2.1/autoLoad.php; 0;  
 2022-06-30  MSK14:11:; 62;  /home/mihail/PhpstormProjects/homework/2.1/admin/models/Models.php; 0; нет такой новости 
+2022-06-30  MSK17:38:; 21;  /home/mihail/PhpstormProjects/homework/2.1/autoLoad.php; 0;  в доступе отказано 
+2022-06-30  MSK17:38:; 21;  /home/mihail/PhpstormProjects/homework/2.1/autoLoad.php; 0;  в доступе отказано 
+2022-06-30  MSK17:39:; 21;  /home/mihail/PhpstormProjects/homework/2.1/autoLoad.php; 0;  в доступе отказано 

@@ -18,7 +18,7 @@ class IndexControllers extends Controllers
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    protected function handle()
+    protected function handle():void
     {
         echo $this->environment->render('index.twig', [
             'arr' => Article::findAll()

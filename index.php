@@ -1,5 +1,7 @@
 <?php
+
 use admin\controllers\log\Logger;
+
 include __DIR__ . '/autoLoad.php';
 
 error_reporting(E_ALL & ~E_DEPRECATED);
@@ -14,6 +16,5 @@ try {
     echo $index->action();
 
 } catch (Exception $error) {
-    $log = new Logger();
-    $log->loog(new Exception());
+    echo $error->getMessage();
 }

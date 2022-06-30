@@ -29,7 +29,7 @@ class View
      * @param string $name
      * @return array|null
      */
-    public function __get(string $name): array|null
+    public function __get(string $name): ?array
     {
         return $this->arrayContent[$name] ?? null;
     }

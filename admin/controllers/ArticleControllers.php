@@ -27,7 +27,7 @@ class ArticleControllers extends Controllers
      */
     protected function handle(): void
     {
-        if (!empty($_GET)) {
+        if (!empty($_GET['id'])) {
 
 //            $news = Article::findById($_GET['id']);
 //            $idAuthor = User::authorById($news[0]->getAuthorId());
@@ -38,7 +38,7 @@ class ArticleControllers extends Controllers
             echo $this->environment->render('article.twig', [
                 'arr' => $news
             ]);
-            if (!empty($_POST)) {
+            if (!empty($_POST['newTitle']) && !empty($_POST['newContent'])) {
                 $article = new Article();
                 $article->id = $_GET['id'];
                 $article->title = $_POST['newTitle'];

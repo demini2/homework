@@ -17,7 +17,8 @@ spl_autoload_register(
         if (file_exists($file)) {
             require $file;
         } else {
-            new Logger(new Exception);
+            $log = new Logger();
+            $log->loog(new Exception(' в доступе отказано'));
             throw new Exception(' в доступе отказано');
         }
     }

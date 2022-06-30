@@ -10,6 +10,7 @@ use Twig\Loader\FilesystemLoader;
 
 /**
  * базовый класс контроллера
+ * @property \Twig\Environment $environment
  */
 abstract class Controllers
 {
@@ -45,7 +46,7 @@ abstract class Controllers
      * @return mixed
      * @throws Exception
      */
-    public function action()
+    public function action():mixed
     {
         if ($this->access()) {
             return $this->handle();

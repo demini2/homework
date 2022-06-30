@@ -55,10 +55,9 @@ abstract class Controllers
         if ($this->access()) {
             return $this->handle();
         } else {
-            $loog = new Logger();
-            $loog->loog(new Exception('нет доступа'));
+            $log = new Logger();
+            $log->loog(new Exception('нет доступа'));
             throw new Exception('нет доступа');
-
         }
     }
 

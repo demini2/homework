@@ -23,7 +23,7 @@ class NewArticleControllers extends Controllers
     protected function handle(): void
     {
         echo $this->environment->render('newArticle.twig');
-        if (!empty($_POST)) {
+        if (!empty($_POST['newTitle']) && !empty($_POST['newContent'])) {
             $article = new Article();
             $user = new User();
             $article->author_id = $user->getAuthorId($_POST['author']);

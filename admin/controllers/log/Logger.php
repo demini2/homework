@@ -11,6 +11,7 @@ use Exception;
  */
 class Logger
 {
+
     /**
      * создаем класс исключения
      * записываем в текстовый фаил
@@ -28,12 +29,13 @@ class Logger
         $file = $exception->getFile();
         $mess = $exception->getMessage();
 
-        $array = "$time; $line;  $file; $code; $mess \n";
+        $string = "$time; $line;  $file; $code; $mess \n";
 
         $way = __DIR__ . '/log.txt';
 
-        file_put_contents($way, $array, FILE_APPEND);
+        file_put_contents($way, $string, FILE_APPEND);
 
     }
+
 
 }
