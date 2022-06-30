@@ -4,6 +4,7 @@ namespace app\controllers;
 
 
 use admin\models\Article;
+use admin\models\User;
 use Exception;
 
 /**
@@ -19,10 +20,12 @@ class ArticleControllers extends Controllers
      * @throws \Twig\Error\SyntaxError
      * @throws Exception
      */
-    protected function handle():void
+    protected function handle(): void
     {
+        $news = User::getFinNews(Article::findById($_GET['id']));
         echo $this->environment->render('article.twig', [
-            'arr' => Article::findById($_GET['id'])
+            'arr' => $news
         ]);
+
     }
 }

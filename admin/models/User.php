@@ -12,10 +12,10 @@ class User extends Models
     /** константа названия таблици */
     public const TABLE = 'authors';
 
-    /** @var int Id автора  */
+    /** @var int Id автора */
     public int $id;
 
-    /** @var string имя автора  */
+    /** @var string имя автора */
     public string $author;
 
     /**
@@ -23,7 +23,7 @@ class User extends Models
      * @return int
      * @throws \Exception
      */
-    public function getAuthorId(string $nameAuthor):int
+    public function getAuthorId(string $nameAuthor): int
     {
 
         $id = $this->issetAuthor($nameAuthor);
@@ -36,10 +36,27 @@ class User extends Models
     }
 
     /**
+     * получаем массив с обектом
+     * Article без автора
+     * добовляем автора по author_id
+     * в новости
+     * и возвращаем в виде массива
+     * @param array $news
+     * @return array
+     * @throws \Exception
+     */
+    public static function getFinNews(array $news): array
+    {
+        $idAuthor = User::authorById($news[0]->getAuthorId());
+        $news[0]->setAuthor($idAuthor[0]->getAuthor());
+        return $news;
+    }
+
+    /**
      * получаем Id всех авторов
      * @param $id
      * @return array|null
-     * @throws Exception
+     * @throws \Exception
      */
     public static function authorById($id): ?array
     {
@@ -61,7 +78,8 @@ class User extends Models
      * @return array|null
      * @throws Exception
      */
-    public function newAuthors(string $name): ?array
+    public
+    function newAuthors(string $name): ?array
     {
         $db = new Bd();
         $sqlAuthor = 'INSERT INTO ' . User::TABLE . ' (author) VALUES (:author)';
@@ -80,7 +98,8 @@ class User extends Models
      * @return array|null
      * @throws Exception
      */
-    public function issetAuthor(string $name): ?array
+    public
+    function issetAuthor(string $name): ?array
     {
         $db = new Bd();
         $answer = $db->query(
@@ -98,7 +117,8 @@ class User extends Models
      * получаем Id автора
      * @return int
      */
-    public function getId(): int
+    public
+    function getId(): int
     {
         return $this->id;
     }
@@ -107,7 +127,8 @@ class User extends Models
      * получаем имя автора
      * @return string
      */
-    public function getAuthor(): string
+    public
+    function getAuthor(): string
     {
         return $this->author;
     }
@@ -116,7 +137,8 @@ class User extends Models
      * @param string $name
      * @return void
      */
-    public function setAuthor(string $name): void
+    public
+    function setAuthor(string $name): void
     {
         $this->author = $name;
     }

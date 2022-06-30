@@ -28,9 +28,12 @@ class ArticleControllers extends Controllers
     protected function handle(): void
     {
         if (!empty($_GET)) {
-            $news = Article::findById($_GET['id']);
-            $idAuthor = User::authorById($news[0]->getAuthorId());
-            $news[0]->setAuthor($idAuthor[0]->getAuthor());
+
+//            $news = Article::findById($_GET['id']);
+//            $idAuthor = User::authorById($news[0]->getAuthorId());
+//            $news[0]->setAuthor($idAuthor[0]->getAuthor());
+
+            $news = User::getFinNews(Article::findById($_GET['id']));
 
             echo $this->environment->render('article.twig', [
                 'arr' => $news

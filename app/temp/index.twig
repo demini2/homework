@@ -13,7 +13,7 @@
     {% for ar in arr %}
         <form name="news" method="get" action="/">
             <article style="border: 5px dotted #c68a5d; margin-bottom: 20px;">
-                <h3><a href="/2.1/?ctrl=article&id={{ ar.getId() }}">{{ ar.getTitle() }}</a>
+                <h3><a href="?ctrl=article&id={{ ar.getId() }}">{{ ar.getTitle() }}</a>
                 </h3>
             </article>
         </form>
