@@ -26,7 +26,7 @@ class NewArticleControllers extends Controllers
         if (!empty($_POST['newTitle']) && !empty($_POST['newContent'])) {
             $article = new Article();
             $user = new User();
-            $article->author_id = $user->getAuthorId($_POST['author']);
+            $article->author_id = $user->getAuthorIdByName($_POST['author']);
             $article->title = $_POST['newTitle'];
             $article->content = $_POST['newContent'];
             $article->save();

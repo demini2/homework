@@ -1,8 +1,3 @@
-<?php
-/**
- * @var $data
- */
-?>
 <!DOCTYPE HTML>
 <html lang="ru">
 <head>
@@ -20,14 +15,14 @@
     <hr>
     <form name="red" method="post" action="/">
         <article style="border: 5px dotted #c68a5d; margin-bottom: 30px;">
-            {% for content in arr %}
+
                 <h2>{{ content.getTitle() }}</h2><br>
                 <p>{{ content.getContent() }}</p>
                 {% if content.getAuthor() %}
                     <p>Автор статьи:</p>
                     <p>{{ content.getAuthor() }}</p>
                 {% endif %}
-            {% endfor %}
+
         </article>
     </form>
 </div>

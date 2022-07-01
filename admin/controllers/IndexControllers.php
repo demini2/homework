@@ -19,8 +19,12 @@ class IndexControllers extends Controllers
      */
     protected function handle(): void
     {
+        $news=Article::findAll();
+        if (empty($news)){
+            throw new Exception('Хюстон, у нас нет новостей!');
+        }
         echo $this->environment->render('index.twig', [
-            'arr' => Article::findAll()
+            'arr' => $news
         ]);
 
     }

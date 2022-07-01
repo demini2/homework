@@ -20,7 +20,7 @@ class Logger
      *
      * @param Exception $exception
      */
-    public function loog(Exception $exception): void
+    public function log(Exception $exception): void
     {
         $date = new DateTimeImmutable();
         $time = $date->format('Y-m-d \ TH:i:');

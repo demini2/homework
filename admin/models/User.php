@@ -5,6 +5,7 @@ namespace admin\models;
 use Exception;
 
 /**
+ *
  * класс предоставляет автора как объект
  */
 class User extends Models
@@ -19,46 +20,59 @@ class User extends Models
     public string $author;
 
     /**
+     * получаем имя автора,
+     * проверяем в базе наличие автора,
+     * если есть возвращаем его Id,
+     * или создаем нового и так же возвращаем его Id
      * @param string $nameAuthor
      * @return int
      * @throws \Exception
      */
-    public function getAuthorId(string $nameAuthor): int
+    public function getAuthorIdByName(string $nameAuthor): int
     {
+        $id = $this->isAuthorExists($nameAuthor);
 
-        $id = $this->issetAuthor($nameAuthor);
-        if (!empty($id)) {
+        if (is_array($id)) {
             return $id[0]->getId();
         }
-        $this->newAuthors($nameAuthor);
-        $infoUser = $this->issetAuthor($nameAuthor);
-        return $infoUser[0]->getId();
+
+        $this->createNewAuthors($nameAuthor);
+        $infoUser = $this->isAuthorExists($nameAuthor);
+
+        return $infoUser->getId();
     }
 
     /**
-     * получаем массив с обектом
-     * Article без автора
+     * получаем обект
+     * {@link Article} без автора
      * добовляем автора по author_id
      * в новости
-     * и возвращаем в виде массива
-     * @param array $news
-     * @return array
+     * и возвращаем в виде обекта {@link Article}
+     *
+     * @param \admin\models\Article $article
+     * @return \admin\models\Article
      * @throws \Exception
      */
-    public static function getFinNews(array $news): array
+    public static function getFinNews(Article $article): Article
     {
-        $idAuthor = User::authorById($news[0]->getAuthorId());
-        $news[0]->setAuthor($idAuthor[0]->getAuthor());
-        return $news;
+        $idAuthor = User::getAuthorById($article->getAuthorId());
+
+        if (null === $idAuthor){
+            throw new Exception('не получилось получит автора');
+        }
+        $article->setAuthor($idAuthor->getAuthor());
+
+        return $article;
     }
 
     /**
-     * получаем Id всех авторов
+     * получаем автора по Id
+     * возвращаем объект {@link  User}
      * @param $id
-     * @return array|null
+     * @return User|null
      * @throws \Exception
      */
-    public static function authorById($id): ?array
+    public static function getAuthorById($id): ?User
     {
         $db = new Bd();
         $answer = $db->query(
@@ -66,20 +80,19 @@ class User extends Models
             static::class,
             ['id' => $id]
         );
-        if (false === $answer) {
+        if (null === $answer) {
             return null;
         }
-        return $answer;
+        return $answer[0];
     }
 
     /**
      * добовляем нового автора с присвоением Id
      * @param string $name
-     * @return array|null
+     * @return User|null
      * @throws Exception
      */
-    public
-    function newAuthors(string $name): ?array
+    public function createNewAuthors(string $name): ?User
     {
         $db = new Bd();
         $sqlAuthor = 'INSERT INTO ' . User::TABLE . ' (author) VALUES (:author)';
@@ -88,18 +101,17 @@ class User extends Models
         if (false === $res) {
             return null;
         }
-        return $res;
 
+        return $res[0];
     }
 
     /**
      * ишем Id автора по имени
      * @param string $name
-     * @return array|null
+     * @return User|null
      * @throws Exception
      */
-    public
-    function issetAuthor(string $name): ?array
+    public function isAuthorExists(string $name): ?User
     {
         $db = new Bd();
         $answer = $db->query(
@@ -107,10 +119,11 @@ class User extends Models
             static::class,
             [':author' => $name]
         );
-        if (false === $answer) {
+        if (null === $answer) {
             return null;
         }
-        return $answer;
+
+        return $answer[0];
     }
 
     /**

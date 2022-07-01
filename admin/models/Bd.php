@@ -55,7 +55,7 @@ class Bd
         $result = $sth->fetchAll(PDO::FETCH_CLASS, $class);
         if (false === $result) {
             $log = new Logger();
-            $log->loog(new Exception('Ошибка связанная с базой данных'));
+            $log->log(new Exception('Ошибка связанная с базой данных'));
             throw new Exception('Ошибка связанная с базой данных');
         }
         return $result;

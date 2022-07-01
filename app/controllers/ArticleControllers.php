@@ -22,9 +22,14 @@ class ArticleControllers extends Controllers
      */
     protected function handle(): void
     {
-        $news = User::getFinNews(Article::findById($_GET['id']));
+        $article = Article::findById($_GET['id']);
+        if (null === $article) {
+            throw new Exception( "Не найден Article с ID #{$_GET['id']}");
+        }
+        /** @var Article $article */
+        $news = User::getFinNews($article);
         echo $this->environment->render('article.twig', [
-            'arr' => $news
+            'content' => $news
         ]);
 
     }

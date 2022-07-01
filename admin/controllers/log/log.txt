@@ -8,3 +8,4 @@
 2022-06-30  MSK17:38:; 21;  /home/mihail/PhpstormProjects/homework/2.1/autoLoad.php; 0;  в доступе отказано 
 2022-06-30  MSK17:38:; 21;  /home/mihail/PhpstormProjects/homework/2.1/autoLoad.php; 0;  в доступе отказано 
 2022-06-30  MSK17:39:; 21;  /home/mihail/PhpstormProjects/homework/2.1/autoLoad.php; 0;  в доступе отказано 
+2022-07-01  MSK10:09:; 19;  /home/mihail/PhpstormProjects/homework/2.1/admin/index.php; 0; нет новостей 

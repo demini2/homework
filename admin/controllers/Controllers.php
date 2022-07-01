@@ -17,7 +17,6 @@ abstract class Controllers
     /** @var View $view */
     protected View $view;
 
-
     /**@var Environment */
     public Environment $environment;
 
@@ -28,7 +27,6 @@ abstract class Controllers
      */
     public function __construct()
     {
-
         $this->view = new View();
         $file = new FilesystemLoader('tempAdmin');
         $this->environment = new Environment($file);
@@ -55,11 +53,14 @@ abstract class Controllers
         if ($this->access()) {
             return $this->handle();
         } else {
-            $log = new Logger();
-            $log->loog(new Exception('нет доступа'));
             throw new Exception('нет доступа');
         }
     }
 
+    /**
+     * Выполнить
+     *
+     * @return mixed
+     */
     abstract protected function handle();
 }

@@ -2,11 +2,10 @@
 
 namespace admin\models;
 
-
-use admin\controllers\log\Logger;
 use Exception;
 
 /**
+ *
  * исходный базавый класс
  */
 abstract class Models
@@ -14,16 +13,15 @@ abstract class Models
     /** константа названия таблицы*/
     public const TABLE = '';
 
-    /** @var int Id новости в БД */
+    /** @var int Id */
     public int $id;
 
-
     /**
-     * получаем все новости
-     * @return array
-     * @throws Exception
+     * получаем все записи
+     * @return array|null
+     * @throws \Exception
      */
-    public static function findAll(): array
+    public static function findAll(): ?array
     {
         $db = new Bd();
         $arr = $db->query(
@@ -31,21 +29,21 @@ abstract class Models
             static::class,
             []
         );
+
         if (empty($arr)) {
-            $log = new Logger();
-            $log->loog(new Exception('нет новостей'));
-            throw new Exception('нет новостей');
+            return null;
         }
+
         return $arr;
     }
 
     /**
-     * находим новость по Id
+     * находим записи по Id
      * @param string $id
-     * @return array
+     * @return object|null
      * @throws \Exception
      */
-    public static function findById(string $id): array
+    public static function findById(string $id): ?object
     {
         $db = new Bd();
         $answer = $db->query(
@@ -53,23 +51,18 @@ abstract class Models
             static::class,
             ['id' => $id]
         );
-        if (empty($answer)) {
-            $log = new Logger();
-            $log->loog(new Exception('нет такой новости'));
-            throw new Exception('нет такой новости');
-        }
-        return $answer;
 
+        if (empty($answer)) {
+            return null;
+        }
+
+        return $answer[0];
     }
 
 
     /**
      * получаем данные,
      * записываем в массив,
-     * проверяем наличие автора в базе
-     * если есть пишем его Id
-     * если нет создаем новый id
-     * и вносим автора в базу
      * передаем sql запрос в базу
      * @return void
      */
@@ -151,9 +144,8 @@ abstract class Models
             $this->update();
             return;
         }
+
         $this->insert();
-
-
     }
 
 }

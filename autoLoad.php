@@ -18,7 +18,7 @@ spl_autoload_register(
             require $file;
         } else {
             $log = new Logger();
-            $log->loog(new Exception(' в доступе отказано'));
+            $log->log(new Exception(' в доступе отказано'));
             throw new Exception(' в доступе отказано');
         }
     }

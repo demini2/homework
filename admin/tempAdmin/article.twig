@@ -13,7 +13,7 @@
     <hr>
     <form name="red" method="post" action="article.twig">
         <article style="border: 5px dotted #c68a5d; margin-bottom: 30px;">
-            {% for content in arr %}
+
             <h2>{{ content.getTitle() }}</h2><br>
             <p>{{ content.getContent() }}</p>
             {% if content.getAuthor() %}
@@ -39,7 +39,7 @@
                 type="submit">Редактировать
         </button>
     </form>
-    {% endfor %}
+
 </div>
 </body>
 </html>

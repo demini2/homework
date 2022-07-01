@@ -58,7 +58,7 @@ class View
         ob_end_clean();
         if (empty($content)) {
             $loog = new Logger();
-            $loog->loog(new Exception('нет контента'));
+            $loog->log(new Exception('нет контента'));
             throw new Exception('нет контента');
         }
         return $content;

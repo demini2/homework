@@ -27,25 +27,29 @@ class ArticleControllers extends Controllers
      */
     protected function handle(): void
     {
-        if (!empty($_GET['id'])) {
+        if (empty($_GET['id'])) {
+            return;
+        }
 
-//            $news = Article::findById($_GET['id']);
-//            $idAuthor = User::authorById($news[0]->getAuthorId());
-//            $news[0]->setAuthor($idAuthor[0]->getAuthor());
+        /** @var Article $article */
+        $article = Article::findById($_GET['id']);
+        if (null === $article) {
+            throw new Exception("Не найден Article с ID #{$_GET['id']}");
+        }
 
-            $news = User::getFinNews(Article::findById($_GET['id']));
+        $news = User::getFinNews($article);
 
-            echo $this->environment->render('article.twig', [
-                'arr' => $news
-            ]);
-            if (!empty($_POST['newTitle']) && !empty($_POST['newContent'])) {
-                $article = new Article();
-                $article->id = $_GET['id'];
-                $article->title = $_POST['newTitle'];
-                $article->content = $_POST['newContent'];
-                $article->save();
-                header('Location: ?ctrl=article&id=' . $article->getId());
-            }
+        echo $this->environment->render('article.twig', [
+            'content' => $news
+        ]);
+
+        if (!empty($_POST['newTitle']) && !empty($_POST['newContent'])) {
+            $article = new Article();
+            $article->id = $_GET['id'];
+            $article->title = $_POST['newTitle'];
+            $article->content = $_POST['newContent'];
+            $article->save();
+            header('Location: ?ctrl=article&id=' . $article->getId());
         }
     }
 
